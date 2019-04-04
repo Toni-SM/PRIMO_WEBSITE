@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" href="../static/images/favicon.ico">
+	<title>PRIMO</title>
+	
+	<link rel="stylesheet" type="text/css" href="../static/lib/css/bootstrap.min.css" />
+</head>
+
+<body>
+    
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+            
+                <!-- table (jobs) -->
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Patient ID</th>
+                            <th scope="col">Patient Name</th>
+                            <th scope="col">Plan</th>
+                            <th scope="col">Machine</th>
+                            <th scope="col">Job Created </th>
+                            {# th scope="col">Job Creation Time</th> #}
+                            <th scope="col">Verification status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in jobs %}
+                            <tr id={{ job.id }} >
+                                {# <th scope="row">{{ job.job_id }}</th> #}
+                                <td> {{ job.patient.patient_id2 }} </td>
+                                <td> {{ [job.patient.patient_lname, job.patient.patient_fname] | join(', ') | title}} </td>
+                                <td> {{ job.plan_name }}</td>
+                                <td> {{ job.machine }} </td>
+                                <td> {{ [job.job_date, job.job_time] | join(' at ') }} </td>
+                                {# <td> {{ job.job_time }} </td> #}
+                                <td> {{ verbose[job.job_status] | title }} </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/lib/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/lib/js/popper.min.js"></script>
+    <script src="../static/lib/js/bootstrap.min.js"></script>        
+</body>
+
+
+
