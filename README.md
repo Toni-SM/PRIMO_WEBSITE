@@ -7,12 +7,12 @@ Web remote access system to the database of patients and result of the PRIMO sys
 Install the necessary libraries from `Python Command Line` 
 
 ```
-$ python -m pip install Flask Flask-SQLAlchemy
+$ python -m pip install Flask Flask-SQLAlchemy Flask-Login
 ```
 
 or from `pip3` tool
 ```
-$ pip3 install Flask Flask-SQLAlchemy
+$ pip3 install Flask Flask-SQLAlchemy Flask-Login
 ```
 
 ### Start the development server
