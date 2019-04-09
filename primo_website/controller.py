@@ -4,16 +4,15 @@ import flask_login
 from primo_website import db, model
 from primo_website import login_manager, db_login, model_login
 
-
 @login_manager.user_loader
 def load_user(user_id):
     """
     Given *user_id*, return the associated User object
     
-    :param user_id: user_id (email) user to retrieve
+    :param user_id: user_id (username) user to retrieve
     :type user_id: unicode
     """
-    return model_login.User.get(user_id)
+    return model_login.User.query.get(user_id)
 
 def login(username, password):
     """

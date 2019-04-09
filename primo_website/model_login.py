@@ -40,10 +40,10 @@ class User(db.Model):
         return False
         
     
-    def set_password(self, password):
+    def check_password_hash(self, password):
         self.password_hash = security.generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password_hash(self, password):
         return security.check_password_hash(self.password_hash, password)
 
 
