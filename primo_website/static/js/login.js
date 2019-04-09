@@ -24,6 +24,7 @@ function login(){
         if(response.status){
         }
         else{
+            showMessage("warning", response.message, 1000);
         }
     });
 }

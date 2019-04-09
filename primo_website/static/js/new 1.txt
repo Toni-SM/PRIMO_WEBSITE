@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS user (username TEXT PRIMARY KEY, password_hash TEXT, authenticated BOOLEAN)
