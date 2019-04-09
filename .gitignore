@@ -1,3 +1,6 @@
+# Windows application
+*.exe
+
 # Database files
 *.db3
 *.db

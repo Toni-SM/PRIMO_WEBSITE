@@ -9,6 +9,7 @@ from primo_website import login_manager
 mod = flask.Blueprint('general', __name__)
 
 @mod.route('/', methods=['GET'])
+@mod.route('/index', methods=['GET'])
 def index():
     return flask.render_template('index.html')
 
@@ -21,8 +22,13 @@ def login():
     """
     if flask.request.method == 'POST':
         data = json.loads(flask.request.values['data'])
-        if controller.login(data.username, data.password):
-            return flask.redirect(flask.url_for("mod.jobs"))  
+        response = {"status": False, "message": "Wrong user or password"}
+        # ckeck the username and password
+        if controller.login(data["username"], data["password"]):
+            response["status"]=True
+            response["message"]=""
+            return flask.jsonify(response)
+        return flask.jsonify(response)
     return flask.render_template("login.html")
 
 
