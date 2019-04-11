@@ -3,4 +3,18 @@
         <img src="../static/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
         <span class="ml-1">Primo</span>
     </a>
+    
+    {% if current_user.is_authenticated %}
+        <div class="dropdown form-inline">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ current_user.username | first | capitalize }}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <span class="dropdown-item">Login as <b>{{ current_user.username }}</b></span>
+                <hr class="mt-2 mb-2">
+                <a class="dropdown-item" href="/logout">Log out</a>
+            </div>
+        </div>
+    {% endif %}
+    
 </nav>

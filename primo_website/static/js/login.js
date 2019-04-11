@@ -22,6 +22,7 @@ function login(){
     $.post('/login', {"data": JSON.stringify(data)}, function(response){
         console.log(response);
         if(response.status){
+            window.open("/", "_self");
         }
         else{
             showMessage("warning", response.message, 1000);

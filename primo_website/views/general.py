@@ -32,6 +32,11 @@ def login():
     return flask.render_template("login.html")
 
 
+@mod.route("/logout", methods=["GET", "POST"])
+def logout():
+    controller.logout()
+    return flask.redirect(flask.url_for('general.index'))
+
 @mod.route('/jobs', methods=['GET'])
 @flask_login.login_required
 def jobs():

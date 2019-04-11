@@ -11,11 +11,21 @@ def load_user(user_id):
     
     :param user_id: user_id (username) user to retrieve
     :type user_id: unicode
+    :return: retrieved User object or None
+    :type: <class 'User'> or <class 'NoneType'>
     """
     return model_login.User.query.get(user_id)
 
 def login(username, password):
     """
+    Login the user if exist the username and password
+    
+    :param username: username of the user
+    :type username: str
+    :param password: password of the user
+    :type password: str
+    :return: the login status of the user
+    :type: bool
     """
     user = model_login.User.query.get(username)
     if user:
@@ -30,12 +40,19 @@ def login(username, password):
 def logout():
     """
     Logout the current user
+    
+    :return: True if the logout was completed successfully
+    :type: bool
     """
-    user = login_manager.current_user
-    user.authenticated = False
-    db_login.session.add(user)
-    db_login.session.commit()
-    flask_login.logout_user()
+    try:
+        user = flask_login.current_user
+        user.authenticated = False
+        db_login.session.add(user)
+        db_login.session.commit()
+        flask_login.logout_user()
+    except Exception as e:
+        print("logout", e)
+        return False
     return True
 
 
