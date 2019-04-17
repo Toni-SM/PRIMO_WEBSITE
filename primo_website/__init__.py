@@ -36,6 +36,9 @@ def create_app():
     from primo_website.views import general
     app.register_blueprint(general.mod)
     
+    # create the tables of the database (if not exist)
+    db.create_all(app=app)
+    
     return app
 
 
