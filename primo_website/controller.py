@@ -2,7 +2,7 @@ from flask import session
 import flask_login 
 
 from primo_website import db, model
-from primo_website import login_manager, db_login, model_login
+from primo_website import login_manager
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -14,7 +14,7 @@ def load_user(user_id):
     :return: retrieved User object or None
     :type: <class 'User'> or <class 'NoneType'>
     """
-    return model_login.User.query.get(user_id)
+    return model.User.query.get(user_id)
 
 def login(username, password):
     """
@@ -27,12 +27,12 @@ def login(username, password):
     :return: the login status of the user
     :type: bool
     """
-    user = model_login.User.query.get(username)
+    user = model.User.query.get(username)
     if user:
         if user.check_password_hash(password):
             user.authenticated = True
-            db_login.session.add(user)
-            db_login.session.commit()
+            db.session.add(user)
+            db.session.commit()
             flask_login.login_user(user, remember=True)
             return True
     return False
@@ -47,8 +47,8 @@ def logout():
     try:
         user = flask_login.current_user
         user.authenticated = False
-        db_login.session.add(user)
-        db_login.session.commit()
+        db.session.add(user)
+        db.session.commit()
         flask_login.logout_user()
     except Exception as e:
         print("logout", e)

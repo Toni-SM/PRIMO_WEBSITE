@@ -9,9 +9,6 @@ import config
 # database object
 db = flask_sqlalchemy.SQLAlchemy()
 
-# database object
-db_login = flask_sqlalchemy.SQLAlchemy()
-
 # login manager
 login_manager = flask_login.LoginManager()
 
@@ -30,7 +27,6 @@ def create_app():
     
     # init database
     db.init_app(app)
-    db_login.init_app(app)
     
     # init login manager
     login_manager.init_app(app)
