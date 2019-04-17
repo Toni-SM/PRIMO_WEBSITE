@@ -4,14 +4,16 @@ from . import db_login as db
 
 class User(db.Model):
     """
-    :param username: username or email of user
-    :type username: srt
-    :param password: encrypted password of user
-    :type password: srt
     """
     __tablename__ = 'user'
 
-    username = db.Column(db.String, primary_key=True)
+    
+    email = db.Column(db.String, primary_key=True, unique=True)
+    name = db.Column(db.String)
+    surname = db.Column(db.String)
+    institute = db.Column(db.String)
+    category = db.Column(db.String)     # administrator, physicist, technologist, nurse, physician)
+    
     password_hash = db.Column(db.String)
     authenticated = db.Column(db.Boolean, default=False)
 
@@ -23,9 +25,9 @@ class User(db.Model):
 
     def get_id(self):
         """
-        Return the username to satisfy Flask-Login's requirements
+        Return the email to satisfy Flask-Login's requirements
         """
-        return self.username
+        return self.email
 
     def is_authenticated(self):
         """
@@ -40,7 +42,7 @@ class User(db.Model):
         return False
         
     
-    def check_password_hash(self, password):
+    def set_password_hash(self, password):
         self.password_hash = security.generate_password_hash(password)
 
     def check_password_hash(self, password):
@@ -50,4 +52,4 @@ class User(db.Model):
 
     @property
     def __repr__(self):
-        return '<%r>' % self.patient_lname
+        return '<%r>' % self.email
