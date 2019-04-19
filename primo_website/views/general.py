@@ -36,6 +36,11 @@ def login():
 def logout():
     controller.logout()
     return flask.redirect(flask.url_for('general.index'))
+    
+@mod.route("/register", methods=["GET"])
+def register():
+    categories=["administrator", "physicist", "technologist", "nurse", "physician"]
+    return flask.render_template('register.html', categories=categories)
 
 @mod.route('/jobs', methods=['GET'])
 @flask_login.login_required
