@@ -20,6 +20,7 @@ def login():
     For GET requests, display the login form
     For POST, login the current user by processing the form
     """
+    # POST request
     if flask.request.method == 'POST':
         data = json.loads(flask.request.values['data'])
         response = {"status": False, "message": "Wrong user or password"}
@@ -29,6 +30,7 @@ def login():
             response["message"]=""
             return flask.jsonify(response)
         return flask.jsonify(response)
+    # GET request
     return flask.render_template("login.html")
 
 
@@ -37,8 +39,19 @@ def logout():
     controller.logout()
     return flask.redirect(flask.url_for('general.index'))
     
-@mod.route("/register", methods=["GET"])
+@mod.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    For GET requests, display the register form
+    For POST, register the current user by processing the form
+    """
+    # POST request
+    if flask.request.method == 'POST':
+        data = json.loads(flask.request.values['data'])
+        registation_response = controller.register(data)
+        response = {"status": registation_response[0], "message": registation_response[1]}
+        return flask.jsonify(response)
+    # GET request
     categories=["administrator", "physicist", "technologist", "nurse", "physician"]
     return flask.render_template('register.html', categories=categories)
 

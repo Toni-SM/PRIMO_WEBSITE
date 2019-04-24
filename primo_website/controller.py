@@ -1,5 +1,6 @@
 from flask import session
 import flask_login 
+import sqlalchemy
 
 from primo_website import db, model
 from primo_website import login_manager
@@ -55,7 +56,35 @@ def logout():
         return False
     return True
 
-
+def register(data):
+    """
+    Register the user if not exist
+    
+    :param data: data about the registration
+    :type data: dict
+    :return: the status of the registration
+    :type: bool
+    """
+    print(data)
+    print(type(data))
+    
+    try:
+        user = model.User(name=data["name"], 
+                          surname=data["surname"], 
+                          institute=data["institute"], 
+                          category=data["category"], 
+                          email=data["email"], 
+                          password_hash=model.User.generate_password_hash(None, data["password"]))
+        db.session.add(user)
+        db.session.commit()        
+        return True, ""
+    except sqlalchemy.exc.IntegrityError:
+        return False, "That account (email) is taken. Try another"
+    except KeyError:
+        return False, "The registration information was not properly provided to the server"
+    except Exception as e:
+        return False, "Internal server error: "+str(e)
+    return False, ""
 
 
 def get_jobs_by_patient():
