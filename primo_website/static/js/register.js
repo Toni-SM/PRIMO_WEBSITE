@@ -1,5 +1,10 @@
 
 function validateData(){
+    // invalid fields
+    if(typeof($("input:invalid")[0])==="object"){
+        return false;
+    }
+    // static fields
     if(!$("#field-name").val().length){
         return false;
     }
@@ -26,8 +31,10 @@ function validateData(){
 
 function register(){
     // validate
-    if(!validateData())
+    if(!validateData()){
+        showMessage("warning", "There are empty required fields or incorrect data", 2500);
         return;
+    }
     
     // check password
     if($("#field-password").val()!=$("#field-repeat-password").val()){
@@ -55,7 +62,7 @@ function register(){
             window.open("/login", "_self");
         }
         else{
-            showMessage("warning", response.message, 2500);
+            showMessage("danger", response.message, 2500);
         }
     });
 }
