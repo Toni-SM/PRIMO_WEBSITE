@@ -86,7 +86,10 @@ def register(data):
         return False, "Internal server error: "+str(e)
     return False, ""
 
-
+def accounts():
+    users = db.session.query(model.User)
+    return users
+    
 def get_jobs_by_patient():
     jobs = db.session.query(model.Job).join(model.Patient).filter(model.Patient.patient_id == model.Job.job_patient_id)
     if jobs is None:
