@@ -65,9 +65,6 @@ def register(data):
     :return: the status of the registration
     :type: bool
     """
-    print(data)
-    print(type(data))
-    
     try:
         user = model.User(name=data["name"], 
                           surname=data["surname"], 
