@@ -41,6 +41,12 @@ def create_app():
     # create the tables of the database (if not exist)
     db.create_all(app=app)
     
+    # register the default admin account (if not exist)
+    from primo_website import controller
+    with app.app_context():
+        if controller.register(config.config.ADMIN)[0]:
+            print("[DEFAULT ACCOUNT]", config.config.ADMIN["email"])
+    
     return app
 
 

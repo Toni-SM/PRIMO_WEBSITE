@@ -14,19 +14,37 @@ class ProductionConfig(Config):
     SECRET_KEY = 'key'
     SQLALCHEMY_DATABASE_URI = os.environ.get('PRO_DATABASE_URL') or \
         'sqlite:///' + os.path.join(_basedir, 'PRIMO-DB.db3')
+    # TODO: set a custom email and password"
+    ADMIN = {"name": "admin",
+             "surname": "",
+             "institute": "",
+             "category": "administrator",
+             "email": "",
+             "password": ""}
 
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'devkey'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(_basedir, 'PRIMO-DB.db3')
+    ADMIN = {"name": "admin",
+             "surname": "",
+             "institute": "",
+             "category": "administrator",
+             "email": "admin",
+             "password": "admin"}
 
 class TestingConfig(Config):
     TESTING = True
     SECRET_KEY = 'testkey'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(_basedir, 'PRIMO-DB.db3')
-
+    ADMIN = {"name": "admin",
+             "surname": "",
+             "institute": "",
+             "category": "administrator",
+             "email": "admin",
+             "password": "admin"}
 
 # custom configuration
 config = DevelopmentConfig
