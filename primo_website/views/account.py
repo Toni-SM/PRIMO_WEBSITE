@@ -23,21 +23,29 @@ def _accounts():
     return flask.redirect(flask.url_for('general.index'))
 
 @mod.route("/register", methods=["POST"])
+@flask_login.login_required
 def register():
     """
     Register the current account by processing the form
     """
-    data = json.loads(flask.request.values['data'])
-    registation_response = controller.register(data)
-    response = {"status": registation_response[0], "message": registation_response[1]}
-    return flask.jsonify(response)
+    user = flask_login.current_user
+    if user.category == "administrator":
+        data = json.loads(flask.request.values['data'])
+        registation_response = controller.register(data)
+        response = {"status": registation_response[0], "message": registation_response[1]}
+        return flask.jsonify(response)
+    return flask.jsonify({"status": False, "message": "This account has not permissions to make the selected operation"})
     
 @mod.route("/remove", methods=["POST"])
+@flask_login.login_required
 def remove():
     """
     Remove the current account by processing the form
     """
-    data = json.loads(flask.request.values['data'])
-    registation_response = controller.remove(data["email"])
-    response = {"status": registation_response[0], "message": registation_response[1]}
-    return flask.jsonify(response)
+    user = flask_login.current_user
+    if user.category == "administrator":
+        data = json.loads(flask.request.values['data'])
+        registation_response = controller.remove(data["email"])
+        response = {"status": registation_response[0], "message": registation_response[1]}
+        return flask.jsonify(response)
+    return flask.jsonify({"status": False, "message": "This account has not permissions to make the selected operation"})
