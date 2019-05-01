@@ -38,16 +38,6 @@ def login():
 def logout():
     controller.logout()
     return flask.redirect(flask.url_for('general.index'))
-    
-@mod.route("/register", methods=["POST"])
-def register():
-    """
-    Register the current user by processing the form
-    """
-    data = json.loads(flask.request.values['data'])
-    registation_response = controller.register(data)
-    response = {"status": registation_response[0], "message": registation_response[1]}
-    return flask.jsonify(response)
 
 @mod.route('/jobs', methods=['GET'])
 @flask_login.login_required

@@ -21,3 +21,23 @@ def _accounts():
         accounts = controller.accounts()
         return flask.render_template("accounts.html", accounts=accounts, categories=categories)
     return flask.redirect(flask.url_for('general.index'))
+
+@mod.route("/register", methods=["POST"])
+def register():
+    """
+    Register the current account by processing the form
+    """
+    data = json.loads(flask.request.values['data'])
+    registation_response = controller.register(data)
+    response = {"status": registation_response[0], "message": registation_response[1]}
+    return flask.jsonify(response)
+    
+@mod.route("/remove", methods=["POST"])
+def remove():
+    """
+    Remove the current account by processing the form
+    """
+    data = json.loads(flask.request.values['data'])
+    registation_response = controller.remove(data["email"])
+    response = {"status": registation_response[0], "message": registation_response[1]}
+    return flask.jsonify(response)

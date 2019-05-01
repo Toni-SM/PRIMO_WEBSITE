@@ -62,8 +62,8 @@ def register(data):
     
     :param data: data about the registration
     :type data: dict
-    :return: the status of the registration
-    :type: bool
+    :return: the status of the registration and the error message
+    :type: tuple(bool, str)
     """
     try:
         user = model.User(name=data["name"], 
@@ -83,8 +83,25 @@ def register(data):
         return False, "Internal server error: "+str(e)
     return False, ""
 
+def remove(username):
+    """
+    Remove the user (if exist)
+    """
+    user = model.User.query.get(username)
+    if user:
+        db.session.delete(user)
+        db.session.commit()  
+        return True, ""
+    return False, "That account (email) do not exist"
+        
 def accounts():
-    users = db.session.query(model.User)
+    """
+    List the registered accounts
+    
+    :return: registered accounts
+    :type: list
+    """
+    users = db.session.query(model.User).all()
     return users
     
 def get_jobs_by_patient():

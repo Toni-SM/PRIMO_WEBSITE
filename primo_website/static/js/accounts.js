@@ -1,4 +1,6 @@
 
+var REMOVE_ACCOUNT_EMAIL = "";
+
 function validateData(){
     // invalid fields
     if(typeof($("input:invalid")[0])==="object"){
@@ -67,6 +69,36 @@ function register(){
     });
 }
 
-$('#button-register').click(function(){
+function showModalRemove(data){
+    $("#modal-remove-account-name").html(data["name"]);
+    $("#modal-remove-account-surname").html(data["surname"]);
+    $("#modal-remove-account-institute").html(data["institute"]);
+    $("#modal-remove-account-category").html(data["category"]);
+    $("#modal-remove-account-email").html(data["email"]);
+ 
+    REMOVE_ACCOUNT_EMAIL=data["email"];
+    $('#modal-remove-account').modal("show");
+}
+
+function remove(){
+    var data={"email": REMOVE_ACCOUNT_EMAIL};
+    
+    $.post('/remove', {"data": JSON.stringify(data)}, function(response){
+        console.log(response);
+        if(response.status){
+            window.open("/accounts", "_self");
+        }
+        else{
+            $('#modal-remove-account').modal("hide");
+            showMessage("danger", response.message, 2500);
+        }
+    });
+}
+
+$('#button-register-account').click(function(){
     register();
+});
+
+$('#button-remove-account').click(function(){
+    remove();
 });
