@@ -85,7 +85,7 @@ def register(data):
 
 def remove(username):
     """
-    Remove the user (if exist)
+    Remove the user (if exist) given the username 
     """
     user = model.User.query.get(username)
     if user:
@@ -96,12 +96,12 @@ def remove(username):
         
 def accounts():
     """
-    List the registered accounts
+    List the registered accounts order by name 
     
     :return: registered accounts
     :type: list
     """
-    users = db.session.query(model.User).all()
+    users = db.session.query(model.User).order_by(model.User.name).all()
     return users
     
 def get_jobs_by_patient():
