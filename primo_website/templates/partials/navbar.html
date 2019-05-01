@@ -10,13 +10,13 @@
             {{ current_user.email | first | capitalize }}
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                <span class="dropdown-item-text text-info">Login as <b>{{ current_user.email }}</b></span>
-                <span class="dropdown-item-text text-info">({{ current_user.category }})</span>
+                <span class="dropdown-item-text text-info">Login<span class="text-white">_</span>as<span class="text-white">_</span>{{ current_user.category }}</span>
+                <span class="dropdown-item-text text-info"><b>{{ current_user.email }}</b></span>
                 {% if current_user.category == "administrator" %}
-                <hr class="mt-2 mb-2">
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/accounts">Manage accounts</a>
                 {% endif %}
-                <hr class="mt-2 mb-2">
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/logout">Log out</a>
             </div>
         </div>

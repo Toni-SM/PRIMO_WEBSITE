@@ -36,13 +36,11 @@ input:valid {
     display: none;
 }
 
-
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
     .mobile-block { display: block; } 
     .mobile-inline { display: inline; } 
     .mobile-flex { display: flex; } 
-    .desktop { display: none; } 
     .desktop-block { display: none; } 
     .desktop-inline { display: none; }
     .desktop-flex { display: none; }
@@ -53,7 +51,6 @@ input:valid {
     .mobile-block { display: block; } 
     .mobile-inline { display: inline; } 
     .mobile-flex { display: flex; } 
-    .desktop { display: none; } 
     .desktop-block { display: none; } 
     .desktop-inline { display: none; }
     .desktop-flex { display: none; }
@@ -63,8 +60,7 @@ input:valid {
 @media (min-width: 768px) and (max-width: 991.98px) {
     .mobile-block { display: none; } 
     .mobile-inline { display: none; } 
-    .mobile-flex { display: none; } 
-    .desktop { display: block; } 
+    .mobile-flex { display: none; }
     .desktop-block { display: block; } 
     .desktop-inline { display: inline; }
     .desktop-flex { display: flex; }
@@ -75,7 +71,6 @@ input:valid {
     .mobile-block { display: none; } 
     .mobile-inline { display: none; } 
     .mobile-flex { display: none; } 
-    .desktop { display: block; } 
     .desktop-block { display: block; } 
     .desktop-inline { display: inline; }
     .desktop-flex { display: flex; }
@@ -85,8 +80,7 @@ input:valid {
 @media (min-width: 1200px) { 
     .mobile-block { display: none; } 
     .mobile-inline { display: none; } 
-    .mobile-flex { display: none; } 
-    .desktop { display: block; } 
+    .mobile-flex { display: none; }
     .desktop-block { display: block; } 
     .desktop-inline { display: inline; }
     .desktop-flex { display: flex; }
