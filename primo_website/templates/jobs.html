@@ -8,6 +8,8 @@
 	<title>PRIMO</title>
 	
 	<link rel="stylesheet" type="text/css" href="../static/lib/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/common.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/jobs.css" />
 </head>
 
 <body>
@@ -45,7 +47,7 @@
                                 <td> {{ job.machine }} </td>
                                 <td> {{ [job.job_date, job.job_time] | join(' at ') }} </td>
                                 {# <td> {{ job.job_time }} </td> #}
-                                <td> {{ verbose[job.job_status] | title }} </td>
+                                <td class="job-color-{{ verbose[job.job_status] | lower }}"> {{ verbose[job.job_status] | title }} </td>
                             </tr>
                         {% endfor %}
                     </tbody>

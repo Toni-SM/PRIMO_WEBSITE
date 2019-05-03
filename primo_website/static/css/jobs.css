@@ -1,0 +1,34 @@
+
+.job-color-timed-out {
+    color: brown;
+}
+
+.job-color-aborted {
+    color: black;
+    font-weight: bold;
+}
+
+.job-color-error {
+    color: red;
+    font-weight: bold;
+}
+
+.job-color-unknown {
+    color: gray;
+}
+
+.job-color-pending {
+    color: orange;
+}
+
+.job-color-copy-pending {
+    color: magenta;
+}
+
+.job-color-processing {
+    color: blue;
+}
+
+.job-color-success {
+    color: green;
+}
