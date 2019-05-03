@@ -105,7 +105,7 @@ def accounts():
     return users
     
 def get_jobs_by_patient():
-    jobs = db.session.query(model.Job).join(model.Patient).filter(model.Patient.patient_id == model.Job.job_patient_id)
+    jobs = db.session.query(model.Job).join(model.Patient).filter(model.Patient.patient_ID == model.Job.job_patient_ID).order_by(model.Patient.patient_ID2).all()
     if jobs is None:
         return []
     for jb in jobs:

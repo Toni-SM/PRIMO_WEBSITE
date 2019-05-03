@@ -39,7 +39,7 @@
                         {% for job in jobs %}
                             <tr id={{ job.id }} >
                                 {# <th scope="row">{{ job.job_id }}</th> #}
-                                <td> {{ job.patient.patient_id2 }} </td>
+                                <td> {{ job.patient.patient_ID2 }} </td>
                                 <td> {{ [job.patient.patient_lname, job.patient.patient_fname] | join(', ') | title}} </td>
                                 <td> {{ job.plan_name }}</td>
                                 <td> {{ job.machine }} </td>
