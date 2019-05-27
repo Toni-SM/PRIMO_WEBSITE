@@ -36,6 +36,10 @@ input:valid {
     display: none;
 }
 
+.breadcrumb {
+    background-color: white;
+}
+
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
     .mobile-block { display: block; } 

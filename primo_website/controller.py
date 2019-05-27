@@ -104,6 +104,7 @@ def accounts():
     users = db.session.query(model.User).order_by(model.User.name).all()
     return users
     
+    
 def get_jobs_by_patient():
     jobs = db.session.query(model.Job).join(model.Patient).filter(model.Patient.patient_ID == model.Job.job_patient_ID).order_by(model.Patient.patient_ID2).all()
     if jobs is None:
@@ -112,3 +113,9 @@ def get_jobs_by_patient():
       jb.job_status += 3
 
     return jobs, model.status_verb
+    
+def get_patients():
+    patients = db.session.query(model.Patient).order_by(model.Patient.patient_lname).all()
+    if patients is None:
+        return []
+    return patients

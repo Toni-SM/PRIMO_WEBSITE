@@ -9,7 +9,7 @@
 	
 	<link rel="stylesheet" type="text/css" href="../static/lib/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="../static/css/common.css" />
-	<link rel="stylesheet" type="text/css" href="../static/css/jobs.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/patients.css" />
 </head>
 
 <body>
@@ -21,7 +21,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Jobs</li>
+            <li class="breadcrumb-item active" aria-current="page">Patients</li>
         </ol>
     </nav>
     
@@ -36,26 +36,21 @@
                 <table class="table table-hover table-responsive-sm">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Patient ID</th>
-                            <th scope="col">Patient Name</th>
-                            <th scope="col">Plan</th>
-                            <th scope="col">Machine</th>
-                            <th scope="col">Job Created </th>
-                            {# th scope="col">Job Creation Time</th> #}
-                            <th scope="col">Verification status</th>
+                            <th scope="col">Lastname, Name</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Sex</th>
+                            <th scope="col">Birthdate</th>
+                            <th scope="col">Address</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for job in jobs %}
-                            <tr id="{{ job.id }}" >
-                                {# <th scope="row">{{ job.job_id }}</th> #}
-                                <td> {{ job.patient.patient_ID2 }} </td>
-                                <td> {{ [job.patient.patient_lname, job.patient.patient_fname] | join(', ') | title }} </td>
-                                <td> {{ job.plan_name }}</td>
-                                <td> {{ job.machine }} </td>
-                                <td> {{ [job.job_date, job.job_time] | join(' at ') }} </td>
-                                {# <td> {{ job.job_time }} </td> #}
-                                <td class="job-color-{{ verbose[job.job_status] | lower }}"> {{ verbose[job.job_status] | title }} </td>
+                        {% for patient in patients %}
+                            <tr id="{{ patient.patient_ID }}" >
+                                <td> {{ [patient.patient_lname, patient.patient_fname] | join(', ') | title }} </td>
+                                <td> {{ patient.patient_ID2 }}</td>
+                                <td> {{ patient.patient_sex }}</td>
+                                <td> {{ patient.patient_birth }} </td>
+                                <td> {{ patient.patient_address1 }} </td>
                             </tr>
                         {% endfor %}
                     </tbody>
