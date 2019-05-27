@@ -46,7 +46,11 @@
                     <tbody>
                         {% for patient in patients %}
                             <tr id="{{ patient.patient_ID }}" >
-                                <td> {{ [patient.patient_lname, patient.patient_fname] | join(', ') | title }} </td>
+                                <td>
+                                    <a href="/patient/{{ patient.patient_ID }}">
+                                    {{ [patient.patient_lname, patient.patient_fname] | join(', ') | title }} 
+                                    </a> 
+                                </td>
                                 <td> {{ patient.patient_ID2 }}</td>
                                 <td> {{ patient.patient_sex }}</td>
                                 <td> {{ patient.patient_birth }} </td>

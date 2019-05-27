@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" href="../static/images/favicon.ico">
+	<title>PRIMO</title>
+	
+	<link rel="stylesheet" type="text/css" href="../static/lib/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/common.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/patients.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/jobs.css" />
+</head>
+
+<body>
+    
+    <!-- navbar -->
+    {% include 'partials/navbar.html' %}
+
+    <!-- breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/patients">Patients</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ [patient.patient_lname, patient.patient_fname] | join(', ') | title }}</li>
+        </ol>
+    </nav>
+    
+    <br>
+    <div class="container-fluid">
+        <div class="row no-gutters">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+
+                <ul class="nav nav-tabs" id="tab-labels" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab-label-patient" data-toggle="tab" href="#tab-content-patient" role="tab" aria-controls="home" aria-selected="true">Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-label-jobs" data-toggle="tab" href="#tab-content-jobs" role="tab" aria-controls="profile" aria-selected="false">Jobs</a>
+                    </li>
+                </ul>
+                <br>
+                <!-- patient details -->
+                <div class="tab-content" id="tab-contents">
+                    <div class="tab-pane fade show active" id="tab-content-patient" role="tabpanel" aria-labelledby="tab-label-patient">
+                        <p><b>Name: </b><span>{{ patient.patient_fname | title }}</span></p>
+                        <p><b>Lastname: </b><span>{{ patient.patient_lname | title }}</span></p>
+                        <p><b>ID: </b><span>{{ patient.patient_ID2 }}</span></p>
+                        <p><b>Sex: </b>
+                            {% if patient.patient_sex | trim == "M" %}
+                            <span>Male</span>
+                            {% else %}
+                            <span>Female</span>
+                            {% endif %}
+                        </p>
+                        <p><b>Birthdate: </b><span>{{ patient.patient_birth | string }}</span></p>
+                        <p><b>Address (1): </b><span>{% if patient.patient_address1 | length %} patient.patient_address1 {% else %} <i>unknow</i> {% endif %}</span></p>
+                        <p><b>Address (2): </b><span>{% if patient.patient_address2 | length %} patient.patient_address2 {% else %} <i>unknow</i> {% endif %}</span></p>
+                    </div>
+                    <!-- jobs details -->
+                    <div class="tab-pane fade" id="tab-content-jobs" role="tabpanel" aria-labelledby="tab-label-jobs">
+                        <table class="table table-hover table-responsive-sm">
+                            <thead class="table-borderless">
+                                <tr>
+                                    <th scope="col">Plan</th>
+                                    <th scope="col">Machine</th>
+                                    <th scope="col">Proc. date</th>
+                                    <th scope="col">Proc. time</th>
+                                    <th scope="col">Verification status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job in jobs %}
+                                    <tr id="{{ job.id }}" >
+                                        {# <th scope="row">{{ job.job_id }}</th> #}
+                                        <td> {{ job.plan_name }}</td>
+                                        <td> {{ job.machine }} </td>
+                                        <td> {{ job.job_date }} </td>
+                                        <td> {{ job.job_time }} </td>
+                                        <td class="job-color-{{ verbose[job.job_status] | lower }}"> {{ verbose[job.job_status] | title }} </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/lib/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/lib/js/popper.min.js"></script>
+    <script src="../static/lib/js/bootstrap.min.js"></script>        
+</body>
+
+
+

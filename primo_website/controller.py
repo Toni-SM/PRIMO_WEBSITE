@@ -119,3 +119,12 @@ def get_patients():
     if patients is None:
         return []
     return patients
+
+def get_patient(id):
+    patient = db.session.query(model.Patient).filter(model.Patient.patient_ID == id).first()
+    if patient is None:
+        return []
+    jobs = db.session.query(model.Job).filter(model.Job.job_patient_ID == id).order_by(model.Job.job_date).order_by(model.Job.job_time).all()
+    if jobs is None:
+        return []
+    return patient, jobs, model.status_verb

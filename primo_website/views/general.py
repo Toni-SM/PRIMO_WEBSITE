@@ -42,11 +42,17 @@ def logout():
 @mod.route('/jobs', methods=['GET'])
 @flask_login.login_required
 def jobs():
-    _jobs, verbose = controller.get_jobs_by_patient()
-    return flask.render_template('jobs.html', jobs=_jobs, verbose=verbose)
+    _jobs, _verbose = controller.get_jobs_by_patient()
+    return flask.render_template('jobs.html', jobs=_jobs, verbose=_verbose)
     
 @mod.route('/patients', methods=['GET'])
 @flask_login.login_required
 def patients():
     _patients = controller.get_patients()
     return flask.render_template('patients.html', patients=_patients)
+    
+@mod.route('/patient/<path:id>', methods=['GET'])
+@flask_login.login_required
+def patient(id):
+    _patient, _jobs, _verbose = controller.get_patient(id)
+    return flask.render_template('patient.html', patient=_patient, jobs=_jobs, verbose=_verbose)
