@@ -25,6 +25,12 @@ input:valid {
 .form-control {
 }
 
+.navbar {
+    border-bottom: lightgray;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+}
+
 .alert {
     position: fixed;
     z-index: 9999;
@@ -39,6 +45,25 @@ input:valid {
 .breadcrumb {
     background-color: white;
 }
+
+/* footer */
+
+.footer-container {
+    border-top: lightgray;
+    border-top-width: 2px;
+    border-top-style: solid;
+    padding: 0 !important;
+}
+
+.footer-middle {
+    font-size: 0.75rem;
+    text-decoration: none;
+}
+
+.footer-icon {
+    max-height: 2.4rem;
+}
+
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
