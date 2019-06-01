@@ -25,10 +25,29 @@ input:valid {
 .form-control {
 }
 
+/* navbar */
+
 .navbar {
     border-bottom: lightgray;
     border-bottom-width: 2px;
     border-bottom-style: solid;
+}
+
+.navbar-brand {
+    color: #006eb1;
+}
+
+.dropdown-menu {
+    padding-top: .5rem;
+    padding-bottom: 0;
+}
+
+.dropdown-divider {
+    margin: 0;
+}
+
+.dropdown-item {
+    padding: .75rem 1.5rem;
 }
 
 .alert {
