@@ -51,7 +51,7 @@ class User(db.Model):
 
     @property
     def __repr__(self):
-        return '<%r>' % self.email
+        return '<User {0}>'.format(self.email)
 
 
 # Models for storage data about the process
@@ -70,7 +70,7 @@ class Project(db.Model):
     
     @property
     def __repr__(self):
-        return '<%r>' % self.project_filename
+        return '<Project {0}>'.format(self.project_ID)
 
 
 class Patient(db.Model):
@@ -85,9 +85,8 @@ class Patient(db.Model):
     patient_address1 = db.Column(db.String, unique=False)
     patient_address2 = db.Column(db.String, unique=False)
 
-    @property
     def __repr__(self):
-        return '<%r>' % self.patient_lname
+        return '<Patient {0}: {1} {2}>'.format(self.patient_ID, self.patient_fname, self.patient_lname)
 
 
 class Job(db.Model):
@@ -119,9 +118,8 @@ class Job(db.Model):
     patient = db.relationship('Patient', backref='job', lazy=True)
     project = db.relationship('Project', backref='job', lazy=True)
 
-    @property
     def __repr__(self):
-        return '<%r>' % self.plan_name
+        return '<Job {0}>'.format(self.job_ID)
 
 
 class Tolerance(db.Model):
@@ -134,9 +132,8 @@ class Tolerance(db.Model):
     warn_low = db.Column(db.Float, unique=False)
     warn_hi = db.Column(db.Float, unique=False)
     
-    @property
     def __repr__(self):
-        return '<%r>' % self.tolerance_ID
+        return 'Tolerance <{0}>'.format(self.tolerance_ID)
           
 
 class Constrain(db.Model):
@@ -156,9 +153,8 @@ class Constrain(db.Model):
     job = db.relationship('Job', backref='constrain', lazy=True)
     tolerance = db.relationship('Tolerance', backref='constrain', lazy=True)
     
-    @property
     def __repr__(self):
-        return '<%r>' % self.constrain_ID
+        return 'Constrain <{0}>'.format(self.constrain_ID)
         
         
 class Gamma(db.Model):
@@ -180,9 +176,8 @@ class Gamma(db.Model):
     job = db.relationship('Job', backref='gamma', lazy=True)
     tolerance = db.relationship('Tolerance', backref='gamma', lazy=True)
     
-    @property
     def __repr__(self):
-        return '<%r>' % self.gamma_ID
+        return '<Gamma {0}>'.format(self.gamma_ID)
         
                
 class Poa(db.Model):
@@ -200,6 +195,5 @@ class Poa(db.Model):
     job = db.relationship('Job', backref='poa', lazy=True)
     tolerance = db.relationship('Tolerance', backref='poa', lazy=True)
     
-    @property
     def __repr__(self):
-        return '<%r>' % self.poa_ID
+        return '<Poa {0}>'.format(self.poa_ID)
