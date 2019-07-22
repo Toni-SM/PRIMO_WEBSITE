@@ -36,6 +36,7 @@
                 <table class="table table-hover table-responsive-sm">
                     <thead class="table-borderless">
                         <tr>
+                            <th scope="col">Job ID</th>
                             <th scope="col">Patient ID</th>
                             <th scope="col">Patient Name</th>
                             <th scope="col">Plan</th>
@@ -49,8 +50,17 @@
                         {% for job in jobs %}
                             <tr id="{{ job.id }}" >
                                 {# <th scope="row">{{ job.job_id }}</th> #}
+                                <td> 
+                                    <a href="/job/{{ job.job_ID }}">
+                                    {{ job.job_ID }} 
+                                    </a>
+                                </td>
                                 <td> {{ job.patient.patient_ID2 }} </td>
-                                <td> {{ [job.patient.patient_lname, job.patient.patient_fname] | join(', ') | title }} </td>
+                                <td> 
+                                    <a href="/patient/{{ job.patient.patient_ID }}">
+                                    {{ [job.patient.patient_lname, job.patient.patient_fname] | join(', ') | title }} 
+                                    </a>
+                                </td>
                                 <td> {{ job.plan_name }}</td>
                                 <td> {{ job.machine }} </td>
                                 <td> {{ [job.job_date, job.job_time] | join(' at ') }} </td>
