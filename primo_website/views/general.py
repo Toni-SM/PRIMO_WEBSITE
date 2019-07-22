@@ -44,6 +44,12 @@ def logout():
 def jobs():
     _jobs, _verbose = controller.get_jobs_by_patient()
     return flask.render_template('jobs.html', jobs=_jobs, verbose=_verbose)
+
+@mod.route('/job/<path:id>', methods=['GET'])
+@flask_login.login_required
+def job(id):
+    _job, _gamma, _poa = controller.get_job(id)
+    return flask.render_template('job.html', job=_job, gamma=_gamma, poa=_poa)
     
 @mod.route('/patients', methods=['GET'])
 @flask_login.login_required

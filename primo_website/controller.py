@@ -128,3 +128,15 @@ def get_patient(id):
     if jobs is None:
         return []
     return patient, jobs, model.status_verb
+
+def get_job(id):
+    job = db.session.query(model.Job).filter(model.Job.job_ID == id).first()
+    if job is None:
+        job = []
+    gamma = db.session.query(model.Gamma).filter(model.Gamma.gamma_job_ID == id).order_by(model.Gamma.region_name).all()
+    if gamma is None:
+        gamma = []
+    poa = db.session.query(model.Poa).filter(model.Poa.poa_job_ID == id).order_by(model.Poa.region_name).all()
+    if poa is None:
+        poa = []
+    return job, gamma, poa
