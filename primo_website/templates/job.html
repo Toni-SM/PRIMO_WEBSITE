@@ -127,8 +127,20 @@
                             <tr id="{{ p.poa_ID }}" >
                                 <td> {{ p.region_name }} </td>
                                 <td> {{ p.poa_value }} </td>
-                                <!-- <td> {{ Warn }} </td> -->
-                                <!-- <td> {{ Fail }} </td> -->
+                                <td> 
+                                    {% if ( p.poa_value >= p.tolerance.warn_low) and ( p.poa_value <= p.tolerance.warn_hi) %}
+                                        <span class="job-color-success">No</span>
+                                    {% else %}
+                                        <span class="job-color-error">Yes</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if ( p.poa_value >= p.tolerance.fail_low) and ( p.poa_value <= p.tolerance.fail_hi) %}
+                                        <span class="job-color-success">No</span>
+                                    {% else %}
+                                        <span class="job-color-error">Yes</span>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
