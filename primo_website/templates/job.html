@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" href="../static/images/favicon.ico">
+	<title>PRIMO</title>
+	
+	<link rel="stylesheet" type="text/css" href="../static/lib/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/common.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/jobs.css" />
+</head>
+
+<body>
+    
+    <!-- navbar -->
+    {% include 'partials/navbar.html' %}
+
+    <!-- breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/jobs">Jobs</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ job.job_ID }}</li>
+        </ol>
+    </nav>
+    
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+
+    <!-- job_ID = db.Column(db.Integer, primary_key=True) -->
+    <!-- job_date = db.Column(db.String, unique=False) -->
+    <!-- job_time = db.Column(db.String, unique=False) -->
+    <!-- study_uid = db.Column(db.String, unique=False) -->
+    <!-- plan_uid = db.Column(db.String, unique=False) -->
+    <!-- fx_uid_low = db.Column(db.Integer, unique=False) -->
+    <!-- fx_uid_hi = db.Column(db.Integer, unique=False) -->
+    <!-- plan_name = db.Column(db.String, unique=False) -->
+    <!-- macro_name = db.Column(db.String, unique=False) -->
+    <!-- FractionNo = db.Column(db.Integer, unique=False) -->
+    <!-- job_status = db.Column(db.Integer, unique=False) -->
+    <!-- deliverable = db.Column(db.Integer, unique=False) -->
+    <!-- priority = db.Column(db.Integer, unique=False) -->
+    <!-- proc_date = db.Column(db.String, unique=False) -->
+    <!-- proc_time = db.Column(db.String, unique=False) -->
+    <!-- presc_dose = db.Column(db.Integer, unique=False) -->
+    <!-- presc_fx = db.Column(db.Integer, unique=False) -->
+    <!-- facility = db.Column(db.String, unique=False) -->
+    <!-- machine = db.Column(db.String, unique=False) -->
+    
+    <!-- job_patient_ID = db.Column(db.Integer, db.ForeignKey('patient.patient_ID')) -->
+    <!-- project_ID = db.Column(db.Integer, db.ForeignKey('project.project_ID')) -->
+    
+
+
+                <div id="tab-content-patient">
+                    <p><b>Job ID: </b><span>{{ job.job_ID }}</span></p>
+                    <p><b>Date and Time: </b><span>{{ [job.job_date, job.job_time] | join(' at ') }}</span></p>
+                    <!-- <p><b>Time: </b><span>{{ job.job_time }}</span></p> -->
+                    <p><b>Plan Name: </b>{{ job.plan_name }}</p>
+                    <p><b>Machine: </b>{{ job.machine }}</p>
+                </div>
+                
+                <br>
+                <!-- table -->
+                <caption>GAMMA Analysis</caption>
+                <table class="table table-hover table-responsive-sm">
+                    <thead class="table-borderless">
+                        <tr>
+                            <th scope="col">Region Name</th>
+                            <th scope="col">Region Type</th>
+                            <th scope="col">Dose [%]</th>
+                            <th scope="col">DTA [cm]</th>
+                            <th scope="col">Analized</th>
+                            <th scope="col">GPR [%]</th>
+                            <th scope="col">Warn</th>
+                            <th scope="col">Fail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for g in gamma %}
+                            <tr id="{{ g.gamma_ID }}" >
+                                <td> {{ g.region_name }} </td>
+                                <td> {{ g.region_type }} </td>
+                                <td> {{ g.dose_dif }} </td>
+                                <td> {{ g.dta }} </td>
+                                <td> {{ g.total_points }} </td>
+                                <td> {{ ( g.pass_points / g.total_points * 100 ) | round(3) }} </td>
+                                <td> 
+                                    {% if ( g.pass_points / g.total_points * 100 >= g.tolerance.warn_low) and ( g.pass_points / g.total_points * 100 <= g.tolerance.warn_hi) %}
+                                        <span class="job-color-success">No</span>
+                                    {% else %}
+                                        <span class="job-color-error">Yes</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if ( g.pass_points / g.total_points * 100 >= g.tolerance.fail_low) and ( g.pass_points / g.total_points * 100 <= g.tolerance.fail_hi) %}
+                                        <span class="job-color-success">No</span>
+                                    {% else %}
+                                        <span class="job-color-error">Yes</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                <br>
+                <!-- table -->
+                <caption>DVH Analysis</caption>
+                <table class="table table-hover table-responsive-sm">
+                    <thead class="table-borderless">
+                        <tr>
+                            <th scope="col">Region Name</th>
+                            <th scope="col">PA [%]</th>
+                            <th scope="col">Warn</th>
+                            <th scope="col">Fail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in poa %}
+                            <tr id="{{ p.poa_ID }}" >
+                                <td> {{ p.region_name }} </td>
+                                <td> {{ p.poa_value }} </td>
+                                <!-- <td> {{ Warn }} </td> -->
+                                <!-- <td> {{ Fail }} </td> -->
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+    
+    <br><br>
+    <br><br>
+    
+    <!-- footer -->
+    {% include 'partials/footer.html' %}
+
+    <script src="../static/lib/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/lib/js/popper.min.js"></script>
+    <script src="../static/lib/js/bootstrap.min.js"></script>        
+</body>
+
+
+
