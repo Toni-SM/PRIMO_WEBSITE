@@ -147,3 +147,7 @@ def get_job(id):
     if job is not None:
         patient = db.session.query(model.Patient).filter(model.Patient.patient_ID == job.job_patient_ID).first()
     return job, gamma, poa, patient
+
+def get_job_pdf(id):
+    # TODO: get the real job's details pdf path
+    return "test-pdf-document.pdf"

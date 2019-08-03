@@ -6,7 +6,7 @@ _basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     DEBUG = False
     TESTING = False
-    UPLOAD_FOLDER = "files"
+    UPLOAD_FOLDER = os.path.join(_basedir, "files")
     ALLOWED_EXTENSIONS = set(['pdf'])
 
 class ProductionConfig(Config):

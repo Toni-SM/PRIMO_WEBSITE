@@ -1,6 +1,7 @@
 import json
 import flask 
 import flask_login 
+from flask import current_app
 
 from primo_website import controller
 from primo_website import login_manager
@@ -39,6 +40,8 @@ def logout():
     controller.logout()
     return flask.redirect(flask.url_for('general.index'))
 
+# jobs 
+
 @mod.route('/jobs', methods=['GET'])
 @flask_login.login_required
 def jobs():
@@ -50,6 +53,15 @@ def jobs():
 def job(id):
     _job, _gamma, _poa, _patient = controller.get_job(id)
     return flask.render_template('job.html', job=_job, gamma=_gamma, poa=_poa, patient=_patient)
+    
+@mod.route('/download-job-pdf/<path:id>')
+@flask_login.login_required
+def download_job_pdf(id):
+    # TODO: build the real job's details pdf download path
+    filename=controller.get_job_pdf(id)
+    return flask.send_from_directory(current_app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+
+# patients
     
 @mod.route('/patients', methods=['GET'])
 @flask_login.login_required

@@ -33,3 +33,11 @@
     color: green;
 }
 
+#pdf-file {
+    height: 7.5rem;
+}
+
+#pdf-file:hover {
+    background-image: url(../images/PDF-file-hover.png);
+    background-size: cover;
+}
