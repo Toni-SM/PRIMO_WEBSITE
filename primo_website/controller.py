@@ -130,13 +130,20 @@ def get_patient(id):
     return patient, jobs, model.status_verb
 
 def get_job(id):
+    # job details
     job = db.session.query(model.Job).filter(model.Job.job_ID == id).first()
     if job is None:
         job = []
+    # gamma analysis details
     gamma = db.session.query(model.Gamma).filter(model.Gamma.gamma_job_ID == id).join(model.Tolerance).filter(model.Tolerance.tolerance_ID == model.Gamma.tolerance_id).order_by(model.Gamma.region_name).all()
     if gamma is None:
         gamma = []
+    # poa analysis details
     poa = db.session.query(model.Poa).filter(model.Poa.poa_job_ID == id).join(model.Tolerance).filter(model.Tolerance.tolerance_ID == model.Poa.tolerance_id).order_by(model.Poa.region_name).all()
     if poa is None:
         poa = []
-    return job, gamma, poa
+    # patient details
+    patient = []
+    if job is not None:
+        patient = db.session.query(model.Patient).filter(model.Patient.patient_ID == job.job_patient_ID).first()
+    return job, gamma, poa, patient

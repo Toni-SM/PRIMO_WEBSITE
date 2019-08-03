@@ -48,8 +48,8 @@ def jobs():
 @mod.route('/job/<path:id>', methods=['GET'])
 @flask_login.login_required
 def job(id):
-    _job, _gamma, _poa = controller.get_job(id)
-    return flask.render_template('job.html', job=_job, gamma=_gamma, poa=_poa)
+    _job, _gamma, _poa, _patient = controller.get_job(id)
+    return flask.render_template('job.html', job=_job, gamma=_gamma, poa=_poa, patient=_patient)
     
 @mod.route('/patients', methods=['GET'])
 @flask_login.login_required

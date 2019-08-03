@@ -33,118 +33,124 @@
             </div>
             <div class="col-10">
 
-    <!-- job_ID = db.Column(db.Integer, primary_key=True) -->
-    <!-- job_date = db.Column(db.String, unique=False) -->
-    <!-- job_time = db.Column(db.String, unique=False) -->
-    <!-- study_uid = db.Column(db.String, unique=False) -->
-    <!-- plan_uid = db.Column(db.String, unique=False) -->
-    <!-- fx_uid_low = db.Column(db.Integer, unique=False) -->
-    <!-- fx_uid_hi = db.Column(db.Integer, unique=False) -->
-    <!-- plan_name = db.Column(db.String, unique=False) -->
-    <!-- macro_name = db.Column(db.String, unique=False) -->
-    <!-- FractionNo = db.Column(db.Integer, unique=False) -->
-    <!-- job_status = db.Column(db.Integer, unique=False) -->
-    <!-- deliverable = db.Column(db.Integer, unique=False) -->
-    <!-- priority = db.Column(db.Integer, unique=False) -->
-    <!-- proc_date = db.Column(db.String, unique=False) -->
-    <!-- proc_time = db.Column(db.String, unique=False) -->
-    <!-- presc_dose = db.Column(db.Integer, unique=False) -->
-    <!-- presc_fx = db.Column(db.Integer, unique=False) -->
-    <!-- facility = db.Column(db.String, unique=False) -->
-    <!-- machine = db.Column(db.String, unique=False) -->
-    
-    <!-- job_patient_ID = db.Column(db.Integer, db.ForeignKey('patient.patient_ID')) -->
-    <!-- project_ID = db.Column(db.Integer, db.ForeignKey('project.project_ID')) -->
-    
-
-
-                <div id="tab-content-patient">
-                    <p><b>Job ID: </b><span>{{ job.job_ID }}</span></p>
-                    <p><b>Date and Time: </b><span>{{ [job.job_date, job.job_time] | join(' at ') }}</span></p>
-                    <!-- <p><b>Time: </b><span>{{ job.job_time }}</span></p> -->
-                    <p><b>Plan Name: </b>{{ job.plan_name }}</p>
-                    <p><b>Machine: </b>{{ job.machine }}</p>
+                <ul class="nav nav-tabs" id="tab-labels" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab-label-job" data-toggle="tab" href="#tab-content-job" role="tab" aria-controls="home" aria-selected="true">Job details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-label-patient" data-toggle="tab" href="#tab-content-patient" role="tab" aria-controls="profile" aria-selected="false">Patient details</a>
+                    </li>
+                </ul>
+                <br>
+                
+                <div class="tab-content" id="tab-contents">
+                    <!-- job details -->
+                    <div class="tab-pane fade show active" id="tab-content-job" role="tabpanel" aria-labelledby="tab-label-job">                
+                        <p><b>Job ID: </b><span>{{ job.job_ID }}</span></p>
+                        <p><b>Date and Time: </b><span>{{ [job.job_date, job.job_time] | join(' at ') }}</span></p>
+                        <!-- <p><b>Time: </b><span>{{ job.job_time }}</span></p> -->
+                        <p><b>Plan Name: </b>{{ job.plan_name }}</p>
+                        <p><b>Machine: </b>{{ job.machine }}</p>
+                
+                        <br> 
+                        <br>
+                        <!-- table -->
+                        <caption>GAMMA Analysis</caption>
+                        <table class="table table-hover table-responsive-sm">
+                            <thead class="table-borderless">
+                                <tr>
+                                    <th scope="col">Region Name</th>
+                                    <th scope="col">Region Type</th>
+                                    <th scope="col">Dose [%]</th>
+                                    <th scope="col">DTA [cm]</th>
+                                    <th scope="col">Analized</th>
+                                    <th scope="col">GPR [%]</th>
+                                    <th scope="col">Warn</th>
+                                    <th scope="col">Fail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for g in gamma %}
+                                    <tr id="{{ g.gamma_ID }}" >
+                                        <td> {{ g.region_name }} </td>
+                                        <td> {{ g.region_type }} </td>
+                                        <td> {{ g.dose_dif }} </td>
+                                        <td> {{ g.dta }} </td>
+                                        <td> {{ g.total_points }} </td>
+                                        <td> {{ ( g.pass_points / g.total_points * 100 ) | round(3) }} </td>
+                                        <td> 
+                                            {% if ( g.pass_points / g.total_points * 100 >= g.tolerance.warn_low) and ( g.pass_points / g.total_points * 100 <= g.tolerance.warn_hi) %}
+                                                <span class="job-color-success">No</span>
+                                            {% else %}
+                                                <span class="job-color-error">Yes</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if ( g.pass_points / g.total_points * 100 >= g.tolerance.fail_low) and ( g.pass_points / g.total_points * 100 <= g.tolerance.fail_hi) %}
+                                                <span class="job-color-success">No</span>
+                                            {% else %}
+                                                <span class="job-color-error">Yes</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <br>
+                        <!-- table -->
+                        <caption>DVH Analysis</caption>
+                        <table class="table table-hover table-responsive-sm">
+                            <thead class="table-borderless">
+                                <tr>
+                                    <th scope="col">Region Name</th>
+                                    <th scope="col">PA [%]</th>
+                                    <th scope="col">Warn</th>
+                                    <th scope="col">Fail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in poa %}
+                                    <tr id="{{ p.poa_ID }}" >
+                                        <td> {{ p.region_name }} </td>
+                                        <td> {{ p.poa_value }} </td>
+                                        <td> 
+                                            {% if ( p.poa_value >= p.tolerance.warn_low) and ( p.poa_value <= p.tolerance.warn_hi) %}
+                                                <span class="job-color-success">No</span>
+                                            {% else %}
+                                                <span class="job-color-error">Yes</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if ( p.poa_value >= p.tolerance.fail_low) and ( p.poa_value <= p.tolerance.fail_hi) %}
+                                                <span class="job-color-success">No</span>
+                                            {% else %}
+                                                <span class="job-color-error">Yes</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- patient details -->
+                    <div class="tab-pane fade" id="tab-content-patient" role="tabpanel" aria-labelledby="tab-label-patient">
+                        <p><b>Name: </b><span>{{ patient.patient_fname | title }}</span></p>
+                        <p><b>Lastname: </b><span>{{ patient.patient_lname | title }}</span></p>
+                        <p><b>ID: </b><span>{{ patient.patient_ID2 }}</span></p>
+                        <p><b>Sex: </b>
+                            {% if patient.patient_sex | trim == "M" %}
+                            <span>Male</span>
+                            {% else %}
+                            <span>Female</span>
+                            {% endif %}
+                        </p>
+                        <p><b>Birthdate: </b><span>{{ patient.patient_birth | string }}</span></p>
+                        <p><b>Address (1): </b><span>{% if patient.patient_address1 | length %} patient.patient_address1 {% else %} <i>unknow</i> {% endif %}</span></p>
+                        <p><b>Address (2): </b><span>{% if patient.patient_address2 | length %} patient.patient_address2 {% else %} <i>unknow</i> {% endif %}</span></p>
+                    </div>
                 </div>
-                
-                <br>
-                <!-- table -->
-                <caption>GAMMA Analysis</caption>
-                <table class="table table-hover table-responsive-sm">
-                    <thead class="table-borderless">
-                        <tr>
-                            <th scope="col">Region Name</th>
-                            <th scope="col">Region Type</th>
-                            <th scope="col">Dose [%]</th>
-                            <th scope="col">DTA [cm]</th>
-                            <th scope="col">Analized</th>
-                            <th scope="col">GPR [%]</th>
-                            <th scope="col">Warn</th>
-                            <th scope="col">Fail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for g in gamma %}
-                            <tr id="{{ g.gamma_ID }}" >
-                                <td> {{ g.region_name }} </td>
-                                <td> {{ g.region_type }} </td>
-                                <td> {{ g.dose_dif }} </td>
-                                <td> {{ g.dta }} </td>
-                                <td> {{ g.total_points }} </td>
-                                <td> {{ ( g.pass_points / g.total_points * 100 ) | round(3) }} </td>
-                                <td> 
-                                    {% if ( g.pass_points / g.total_points * 100 >= g.tolerance.warn_low) and ( g.pass_points / g.total_points * 100 <= g.tolerance.warn_hi) %}
-                                        <span class="job-color-success">No</span>
-                                    {% else %}
-                                        <span class="job-color-error">Yes</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if ( g.pass_points / g.total_points * 100 >= g.tolerance.fail_low) and ( g.pass_points / g.total_points * 100 <= g.tolerance.fail_hi) %}
-                                        <span class="job-color-success">No</span>
-                                    {% else %}
-                                        <span class="job-color-error">Yes</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                
-                <br>
-                <!-- table -->
-                <caption>DVH Analysis</caption>
-                <table class="table table-hover table-responsive-sm">
-                    <thead class="table-borderless">
-                        <tr>
-                            <th scope="col">Region Name</th>
-                            <th scope="col">PA [%]</th>
-                            <th scope="col">Warn</th>
-                            <th scope="col">Fail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for p in poa %}
-                            <tr id="{{ p.poa_ID }}" >
-                                <td> {{ p.region_name }} </td>
-                                <td> {{ p.poa_value }} </td>
-                                <td> 
-                                    {% if ( p.poa_value >= p.tolerance.warn_low) and ( p.poa_value <= p.tolerance.warn_hi) %}
-                                        <span class="job-color-success">No</span>
-                                    {% else %}
-                                        <span class="job-color-error">Yes</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if ( p.poa_value >= p.tolerance.fail_low) and ( p.poa_value <= p.tolerance.fail_hi) %}
-                                        <span class="job-color-success">No</span>
-                                    {% else %}
-                                        <span class="job-color-error">Yes</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
                 
             </div>
         </div>
