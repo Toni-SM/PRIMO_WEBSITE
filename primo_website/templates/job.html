@@ -136,8 +136,8 @@
                     
                     <!-- patient details -->
                     <div class="tab-pane fade" id="tab-content-patient" role="tabpanel" aria-labelledby="tab-label-patient">
-                        <p><b>Name: </b><span>{{ patient.patient_fname | title }}</span></p>
-                        <p><b>Lastname: </b><span>{{ patient.patient_lname | title }}</span></p>
+                        <p><b>Name: </b><a href="/patient/{{ patient.patient_ID }}"><span>{{ patient.patient_fname | title }}</span></a></p>
+                        <p><b>Lastname: </b><a href="/patient/{{ patient.patient_ID }}"><span>{{ patient.patient_lname | title }}</span></a></p>
                         <p><b>ID: </b><span>{{ patient.patient_ID2 }}</span></p>
                         <p><b>Sex: </b>
                             {% if patient.patient_sex | trim == "M" %}

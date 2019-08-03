@@ -36,7 +36,7 @@
 
                 <ul class="nav nav-tabs" id="tab-labels" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="tab-label-patient" data-toggle="tab" href="#tab-content-patient" role="tab" aria-controls="home" aria-selected="true">Information</a>
+                        <a class="nav-link active" id="tab-label-patient" data-toggle="tab" href="#tab-content-patient" role="tab" aria-controls="home" aria-selected="true">Patient details</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tab-label-jobs" data-toggle="tab" href="#tab-content-jobs" role="tab" aria-controls="profile" aria-selected="false">Jobs</a>
@@ -65,6 +65,7 @@
                         <table class="table table-hover table-responsive-sm">
                             <thead class="table-borderless">
                                 <tr>
+                                    <th scope="col">Job ID</th>
                                     <th scope="col">Plan</th>
                                     <th scope="col">Machine</th>
                                     <th scope="col">Proc. date</th>
@@ -75,7 +76,11 @@
                             <tbody>
                                 {% for job in jobs %}
                                     <tr id="{{ job.id }}" >
-                                        {# <th scope="row">{{ job.job_id }}</th> #}
+                                        <td> 
+                                            <a href="/job/{{ job.job_ID }}">
+                                            {{ job.job_ID }} 
+                                            </a>
+                                        </td>
                                         <td> {{ job.plan_name }}</td>
                                         <td> {{ job.machine }} </td>
                                         <td> {{ job.job_date }} </td>
