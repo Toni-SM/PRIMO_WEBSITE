@@ -28,14 +28,17 @@
     
     <br>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col-1">
             </div>
             <div class="col-10">
 
                 <ul class="nav nav-tabs" id="tab-labels" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="tab-label-job" data-toggle="tab" href="#tab-content-job" role="tab" aria-controls="home" aria-selected="true">Job details</a>
+                        <a class="nav-link active" id="tab-label-job" data-toggle="tab" href="#tab-content-job" role="tab" aria-controls="home" aria-selected="true">Job</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-label-validation" data-toggle="tab" href="#tab-content-validation" role="tab" aria-controls="profile" aria-selected="false">Validation</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tab-label-patient" data-toggle="tab" href="#tab-content-patient" role="tab" aria-controls="profile" aria-selected="false">Patient details</a>
@@ -165,6 +168,10 @@
                         <p><b>Birthdate: </b><span>{{ patient.patient_birth | string }}</span></p>
                         <p><b>Address (1): </b><span>{% if patient.patient_address1 | length %} patient.patient_address1 {% else %} <i>unknow</i> {% endif %}</span></p>
                         <p><b>Address (2): </b><span>{% if patient.patient_address2 | length %} patient.patient_address2 {% else %} <i>unknow</i> {% endif %}</span></p>
+                    </div>
+                    
+                    <!-- validation details -->
+                    <div class="tab-pane fade" id="tab-content-validation" role="tabpanel" aria-labelledby="tab-label-validation">
                     </div>
                 </div>
                 
