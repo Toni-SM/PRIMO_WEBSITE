@@ -51,8 +51,12 @@ def jobs():
 @mod.route('/job/<path:id>', methods=['GET'])
 @flask_login.login_required
 def job(id):
-    _job, _gamma, _poa, _patient = controller.get_job(id)
-    return flask.render_template('job.html', job=_job, gamma=_gamma, poa=_poa, patient=_patient)
+    try:
+        _tab=int(flask.request.values["tab"])
+    except:
+        _tab=0
+    _job, _gamma, _poa, _patient, _validation = controller.get_job(id)
+    return flask.render_template('job.html', job=_job, gamma=_gamma, poa=_poa, patient=_patient, validation=_validation, tab=_tab)
     
 @mod.route('/download-job-pdf/<path:id>')
 @flask_login.login_required
@@ -60,6 +64,14 @@ def download_job_pdf(id):
     # TODO: build the real job's details pdf download path
     filename=controller.get_job_pdf(id)
     return flask.send_from_directory(current_app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+
+@mod.route('/job-validation', methods=['POST'])
+@flask_login.login_required
+def job_validation():
+    user = flask_login.current_user
+    data = json.loads(flask.request.values['data'])
+    status=controller.job_validation(data["status"], user.email, int(data["job"]))
+    return flask.jsonify({"status": status})
 
 # patients
     

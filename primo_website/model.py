@@ -197,3 +197,21 @@ class Poa(db.Model):
     
     def __repr__(self):
         return '<Poa {0}>'.format(self.poa_ID)
+
+
+# Model for validate jobs
+
+class Validation(db.Model):
+    __tablename__ = 'validation'
+    
+    validation_ID = db.Column(db.Integer, primary_key=True)
+    valid = db.Column(db.Boolean, default=False)
+    
+    validation_job_ID = db.Column(db.Integer, db.ForeignKey('job.job_ID'))
+    validation_user_ID = db.Column(db.String, db.ForeignKey('user.email'))
+    
+    job = db.relationship('Job', backref='validation', lazy=True)
+    user = db.relationship('User', backref='validation', lazy=True)
+    
+    def __repr__(self):
+        return '<Validation {0}>'.format(self.validation_ID)

@@ -35,10 +35,18 @@
 
                 <ul class="nav nav-tabs" id="tab-labels" role="tablist">
                     <li class="nav-item">
+                        {% if tab == 0 %}
                         <a class="nav-link active" id="tab-label-job" data-toggle="tab" href="#tab-content-job" role="tab" aria-controls="home" aria-selected="true">Job</a>
+                        {% else %}
+                        <a class="nav-link" id="tab-label-job" data-toggle="tab" href="#tab-content-job" role="tab" aria-controls="home" aria-selected="false">Job</a>
+                        {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab-label-validation" data-toggle="tab" href="#tab-content-validation" role="tab" aria-controls="profile" aria-selected="false">Validation</a>
+                        {% if tab == 1 %}
+                        <a class="nav-link active" id="tab-label-validation" data-toggle="tab" href="#tab-content-validation" role="tab" aria-controls="profile" aria-selected="true">Approval</a>
+                        {% else %}
+                        <a class="nav-link" id="tab-label-validation" data-toggle="tab" href="#tab-content-validation" role="tab" aria-controls="profile" aria-selected="false">Approval</a>
+                        {% endif %}
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tab-label-patient" data-toggle="tab" href="#tab-content-patient" role="tab" aria-controls="profile" aria-selected="false">Patient details</a>
@@ -48,7 +56,11 @@
                 
                 <div class="tab-content" id="tab-contents">
                     <!-- job details -->
+                    {% if tab == 0 %}
                     <div class="tab-pane fade show active" id="tab-content-job" role="tabpanel" aria-labelledby="tab-label-job">                
+                    {% else %}
+                    <div class="tab-pane fade" id="tab-content-job" role="tabpanel" aria-labelledby="tab-label-job">                
+                    {% endif %}
                         
                         <div class="row">
                             <div class="col-md-6">
@@ -171,7 +183,62 @@
                     </div>
                     
                     <!-- validation details -->
+                    {% if tab == 1 %}             
+                    <div class="tab-pane fade show active" id="tab-content-validation" role="tabpanel" aria-labelledby="tab-label-validation">
+                    {% else %}                
                     <div class="tab-pane fade" id="tab-content-validation" role="tabpanel" aria-labelledby="tab-label-validation">
+                    {% endif %}
+                        
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <button id="button-validate-job" type="button" class="w-100 mb-2 btn btn-outline-success">Approve job</button>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <!-- <br class="d-block d-sm-block d-md-none d-lg-none d-xl-none"> -->
+                                <button id="button-invalidate-job" type="button" class="w-100 mb-2 btn btn-outline-danger">Disapprove job</button>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <button id="button-remove-validation" type="button" class="w-100 mb-2 btn btn-outline-secondary">Remove approval</button>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <p><strong>Job approved by {{ validation | length }} person(s):</strong></p>
+ 
+                        <!-- table -->
+                        <table class="table table-hover table-responsive-sm">
+                            <thead class="table-borderless">
+                                <tr>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for v in validation %}                                    
+                                    {% if v.user.email == current_user.email %}
+                                        {% if v.valid %}
+                                        <tr id="v-id-{{ v.validation_ID }}" class="table-success">
+                                        {% else %}
+                                        <tr id="v-id-{{ v.validation_ID }}" class="table-danger">
+                                        {% endif %}
+                                    {% else %}
+                                    <tr id="v-id-{{ v.validation_ID }}" >
+                                    {% endif %}
+                                        <td> {{ v.user.name }}&nbsp;{{ v.user.surname }} </td>
+                                        <td> {{ v.user.category }}</td>
+                                        <td>
+                                            {% if v.valid %}
+                                                <span class="job-color-success">Approved</span>
+                                            {% else %}
+                                                <span class="job-color-error">Disapproved</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
                     </div>
                 </div>
                 
@@ -187,7 +254,12 @@
 
     <script src="../static/lib/js/jquery-3.3.1.min.js"></script>
     <script src="../static/lib/js/popper.min.js"></script>
-    <script src="../static/lib/js/bootstrap.min.js"></script>        
+    <script src="../static/lib/js/bootstrap.min.js"></script>   
+    
+    <script>
+        var JOB_ID = {{ job.job_ID }};
+    </script>
+    <script src="../static/js/job.js"></script>        
 </body>
 
 

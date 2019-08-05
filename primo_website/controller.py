@@ -146,8 +146,32 @@ def get_job(id):
     patient = []
     if job is not None:
         patient = db.session.query(model.Patient).filter(model.Patient.patient_ID == job.job_patient_ID).first()
-    return job, gamma, poa, patient
+    # validation
+    validation = db.session.query(model.Validation).filter(model.Validation.validation_job_ID == id).join(model.User).order_by(model.User.name).all()
+    if validation is None:
+        validation = []
+    return job, gamma, poa, patient, validation
 
 def get_job_pdf(id):
     # TODO: get the real job's details pdf path
     return "test-pdf-document.pdf"
+
+def job_validation(status, user_id, job_id):
+    boolen_status = True if status == "validate" else False
+    validation = db.session.query(model.Validation).filter(model.Validation.validation_job_ID == job_id).filter(model.Validation.validation_user_ID == user_id).first()    
+    # remove validation
+    if status == "remove":
+        if validation is not None:
+            db.session.delete(validation)
+            db.session.commit()
+            return True
+    # insert or update
+    else:
+        if validation is None:
+            validation = model.Validation(valid=boolen_status, validation_job_ID=job_id, validation_user_ID=user_id)
+        else:
+            validation.valid=boolen_status
+        db.session.add(validation)
+        db.session.commit()
+        return True
+    return False
