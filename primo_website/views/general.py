@@ -86,3 +86,12 @@ def patients():
 def patient(id):
     _patient, _jobs, _verbose = controller.get_patient(id)
     return flask.render_template('patient.html', patient=_patient, jobs=_jobs, verbose=_verbose)
+
+# reviews
+
+@mod.route('/reviews', methods=['GET'])
+@flask_login.login_required
+def reviews():
+    _jobs, _verbose = controller.get_jobs_by_patient()
+    return flask.render_template('reviews.html', jobs=_jobs, verbose=_verbose)
+    

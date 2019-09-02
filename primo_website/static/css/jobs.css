@@ -41,3 +41,11 @@
     background-image: url(../images/PDF-file-hover.png);
     background-size: cover;
 }
+
+.job-color-table-error {
+    background-color: #ff021d0a;
+}
+
+.job-color-table-success {
+    /* background-color: #02ff1d0a; */
+}

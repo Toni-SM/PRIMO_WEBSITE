@@ -175,3 +175,4 @@ def job_validation(status, user_id, job_id):
         db.session.commit()
         return True
     return False
+    
