@@ -51,6 +51,9 @@
                     <li class="nav-item">
                         <a class="nav-link" id="tab-label-patient" data-toggle="tab" href="#tab-content-patient" role="tab" aria-controls="profile" aria-selected="false">Patient details</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-label-pdf" data-toggle="tab" href="#tab-content-pdf" role="tab" aria-controls="profile" aria-selected="false">PDF file</a>
+                    </li>
                 </ul>
                 <br>
                 
@@ -63,24 +66,24 @@
                     {% endif %}
                         
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <p><b>Job ID: </b><span>{{ job.job_ID }}</span></p>
                                 <p><b>Date and Time: </b><span>{{ [job.job_date, job.job_time] | join(' at ') }}</span></p>
                                 <!-- <p><b>Time: </b><span>{{ job.job_time }}</span></p> -->
                                 <p><b>Plan Name: </b>{{ job.plan_name }}</p>
                                 <p><b>Machine: </b>{{ job.machine }}</p>
                             </div>
-                            <div class="col-md-6">
-                                <div class="text-center float-right d-none d-md-block d-lg-block d-xl-block">
-                                    <a href="/download-job-pdf/{{ job.job_ID }}" download="primo-job-{{ job.job_ID }}.pdf"><img id="pdf-file" src="../static/images/PDF-file.png"/></a>
-                                    <p>Download <strong>PDF report</strong></p>
-                                </div>
-                                <div class="text-center d-block d-sm-block d-md-none d-lg-none d-xl-none">
-                                    <br>
-                                    <a href="/download-job-pdf/{{ job.job_ID }}" download="primo-job-{{ job.job_ID }}.pdf"><img id="pdf-file" src="../static/images/PDF-file.png"/></a>
-                                    <p>Download <strong>PDF report</strong></p>
-                                </div>
-                            </div>
+                            <!-- <div class="col-md-6"> -->
+                                <!-- <div class="text-center float-right d-none d-md-block d-lg-block d-xl-block"> -->
+                                    <!-- <a href="/download-job-pdf/{{ job.job_ID }}" download="primo-job-{{ job.job_ID }}.pdf"><img id="pdf-file" src="../static/images/PDF-file.png"/></a> -->
+                                    <!-- <p>Download <strong>PDF report</strong></p> -->
+                                <!-- </div> -->
+                                <!-- <div class="text-center d-block d-sm-block d-md-none d-lg-none d-xl-none"> -->
+                                    <!-- <br> -->
+                                    <!-- <a href="/download-job-pdf/{{ job.job_ID }}" download="primo-job-{{ job.job_ID }}.pdf"><img id="pdf-file" src="../static/images/PDF-file.png"/></a> -->
+                                    <!-- <p>Download <strong>PDF report</strong></p> -->
+                                <!-- </div> -->
+                            <!-- </div> -->
                         </div>
                 
                         <br> 
@@ -240,6 +243,12 @@
                         </table>
                         
                     </div>
+                    
+                    <!-- pdf file -->
+                    <div class="tab-pane fade" id="tab-content-pdf" role="tabpanel" aria-labelledby="tab-label-pdf">
+                        <canvas class="w-100" id="pdf-canvas"></canvas>
+                    </div>
+                    
                 </div>
                 
             </div>
@@ -258,7 +267,10 @@
     
     <script>
         var JOB_ID = {{ job.job_ID }};
+        var PDF_FILE = "/see-job-pdf/{{ job.job_ID }}";
     </script>
+    <script src="../static/lib/js/pdf.js"></script> 
+    
     <script src="../static/js/job.js"></script>        
 </body>
 

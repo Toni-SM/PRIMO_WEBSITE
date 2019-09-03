@@ -65,6 +65,13 @@ def download_job_pdf(id):
     filename=controller.get_job_pdf(id)
     return flask.send_from_directory(current_app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
+@mod.route('/see-job-pdf/<path:id>')
+@flask_login.login_required
+def see_job_pdf(id):
+    # TODO: build the real job's details pdf download path
+    filename=controller.get_job_pdf(id)
+    return flask.send_from_directory(current_app.config['UPLOAD_FOLDER'], filename, as_attachment=False)
+
 @mod.route('/job-validation', methods=['POST'])
 @flask_login.login_required
 def job_validation():
