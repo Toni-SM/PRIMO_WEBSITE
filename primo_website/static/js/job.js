@@ -31,12 +31,19 @@ $('#button-remove-validation').click(function(){
 });
 
 
-var pdf_document=null;
+var currentPdfDocument=null;
+var currentNumberOfPages=null;
+var currentPage=0;
+
+function shiftPage(s){
+    changePage(currentPage+s);
+}
 
 function changePage(p){
-    if(!pdf_document)
+    if((!currentPdfDocument || !p) || p>currentNumberOfPages)
         return;
-    pdf_document.getPage(p).then(function(page){
+    currentPage=p;
+    currentPdfDocument.getPage(p).then(function(page){
         // you can now use *page* here
         var viewport = page.getViewport({scale: 2});
 
@@ -47,12 +54,28 @@ function changePage(p){
 
         var renderContext = {canvasContext: context, viewport: viewport};
         page.render(renderContext);
-    });  
+
+        // pagination
+        $("#li-pagination-current").html("&nbsp;"+String(currentPage)+" of "+String(currentNumberOfPages)+"&nbsp;");
+        
+        if(currentNumberOfPages<=1){
+            $("#li-pagination-previous").toggleClass("disabled", true);
+            $("#li-pagination-next").toggleClass("disabled", true);
+        }
+        else{
+            $("#li-pagination-previous").toggleClass("disabled", currentPage==1);
+            $("#li-pagination-next").toggleClass("disabled", currentPage==currentNumberOfPages);
+        }
+    });      
 }
 
 var loadingTask = pdfjsLib.getDocument(PDF_FILE);
 loadingTask.promise.then(function(pdf){
-    pdf_document=pdf;
-    console.log("pages", pdf_document.numPages);
+    currentPdfDocument=pdf;
+    
+    // create pagination
+    currentNumberOfPages=currentPdfDocument.numPages;
+    
+    // change page
     changePage(1);
 });
